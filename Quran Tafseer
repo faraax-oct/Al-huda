@@ -760,30 +760,29 @@ class _Episode6PlaylistViewState extends State<Episode6PlaylistView> {
                 ),
               ),
             ),
-            SizedBox(width: screenWidth * 0.03),
+            SizedBox(width: screenWidth * 0.00),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                      left: 25.0,
+                      left: 0.0,
                     ),
                     child:
                     Row(
                       children: [
-                        Padding(
-                          padding:  EdgeInsets.only(left: 1.0,),
-                          child: Text(
+
+                         Text(
                             transformString(realtimePlayingInfos.currentPosition.inSeconds),
                             style: TextStyle(
                                 fontSize: 13, color: mainColor, fontFamily: 'Barlow'),
                           ),
-                        ),
-                        SizedBox(width: 55,),
+
+                        slider(realtimePlayingInfos),
                         Padding(
-                          padding:  EdgeInsets.only(left: 28.0,),
+                          padding:  EdgeInsets.only(left: 0.0,),
                           child: Text(
                             transformString(realtimePlayingInfos.duration.inSeconds),
                             style: TextStyle(
@@ -794,25 +793,18 @@ class _Episode6PlaylistViewState extends State<Episode6PlaylistView> {
                     ),
 
                   ),
-                  slider(realtimePlayingInfos),
+
                   SizedBox(height: 0,),
                   Text(realtimePlayingInfos.current.audio.audio.metas.title),
+                  Text(realtimePlayingInfos.current.audio.audio.metas.artist),
 
                 ],
 
               ),
             ),
-            IconButton(
-                icon: Icon(realtimePlayingInfos.isPlaying
-                    ? Icons.favorite
-                    : Icons.favorite_border_rounded),
-                iconSize: screenHeight * 0.04,
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                color: mainColor,
-                onPressed: () => audioPlayer.playOrPause()),
+
             SizedBox(
-              width: screenWidth * 0.03,
+              width: screenWidth * 0.01,
             ),
             IconButton(
                 icon: Icon(realtimePlayingInfos.isPlaying

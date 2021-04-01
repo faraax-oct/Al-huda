@@ -790,15 +790,7 @@ class _Episode6PlaylistViewState extends State<Episode6PlaylistView> {
             SizedBox(
               width: screenWidth * 0.03,
             ),
-            IconButton(
-                icon: Icon(realtimePlayingInfos.isPlaying
-                    ? Icons.pause_circle_filled_rounded
-                    : Icons.play_circle_fill_rounded),
-                iconSize: screenHeight * 0.07,
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                color: mainColor,
-                onPressed: () => audioPlayer.playOrPause())
+
           ],
         ),
       ),
@@ -837,7 +829,7 @@ class _Episode6PlaylistViewState extends State<Episode6PlaylistView> {
               IconButton(
                 icon: Icon(Icons.skip_previous_rounded),
                 onPressed: () => swiperController.previous(),
-                iconSize: screenHeight * 0.06,
+                iconSize: screenHeight * 0.02,
                 color: Colors.white,
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
@@ -848,9 +840,10 @@ class _Episode6PlaylistViewState extends State<Episode6PlaylistView> {
                 child: IconButton(
                   icon: Icon(realtimePlayingInfos.isPlaying
                       ? Icons.pause_rounded
-                      : Icons.play_arrow_rounded),
+                      : Icons.play_arrow_rounded,),
+
                   onPressed: () => audioPlayer.playOrPause(),
-                  iconSize: screenHeight * 0.06,
+                  iconSize: screenHeight * 0.02,
                   color: Colors.white,
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
@@ -859,7 +852,7 @@ class _Episode6PlaylistViewState extends State<Episode6PlaylistView> {
               IconButton(
                 icon: Icon(Icons.skip_next_rounded),
                 onPressed: () => swiperController.next(),
-                iconSize: screenHeight * 0.06,
+                iconSize: screenHeight * 0.02,
                 color: Colors.white,
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,

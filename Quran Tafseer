@@ -1,0 +1,874 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+
+class Episode6PlaylistView extends StatefulWidget {
+  @override
+  _Episode6PlaylistViewState createState() => _Episode6PlaylistViewState();
+}
+
+class _Episode6PlaylistViewState extends State<Episode6PlaylistView> {
+  int _currentIndex = 0;
+  final AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
+  double screenHeight = 0;
+  double screenWidth = 0;
+  Duration duration = new Duration();
+  Duration position = new Duration();
+  bool playing = false;
+  final Color mainColor = Color(0xff020205);
+  final Color inactiveColor = Color(0xff5d6169);
+
+
+  List<Audio> audioList = [
+
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F1A%20Suratul%20saffat%20%2067_84.mp3?alt=media&token=93b1c378-a612-4539-b379-2628788297fa",
+        metas: Metas(
+            title: "1A Surah as Saffat Ayat 67-84",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F1B%20Surah%20as%20saffat%20lesson%206.mp3?alt=media&token=83866848-2ec0-42d5-bc0f-d1d2c58aba95",
+        metas: Metas(
+            title: "1B Surah as Saffat Ayat 85-111",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F1C%20Surah%20as%20saffat%20ayat%20112_132.mp3?alt=media&token=90fef5f5-2cf0-46f7-a633-465493bd2944",
+        metas: Metas(
+            title: "1C Surah as Saffat Ayat 112-132",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F1D%20..Suratul%20%20saffat%20ayat%20133_142.mp3?alt=media&token=01853a8e-c84f-4f5d-9df5-edf44584fb52",
+        metas: Metas(
+            title: "1D Surah as  Saffat Ayat 133-142",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F1E%20Suratul%20%20saffat%20149_182.mp3?alt=media&token=6b843b87-8d93-4665-b1da-21fa3f74e97b",
+        metas: Metas(
+            title: "1E Surah as Saffat Ayat 149-182",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F2A%20%20Suratul%20saad%201_10.mp3?alt=media&token=20dead94-743b-4cf0-9729-3d3aba288f32",
+        metas: Metas(
+            title: "2A Suratul Saad Ayat 1-10",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F2B%20Suratul%20saad%2022_29.mp3?alt=media&token=938aa484-12e3-4612-b1e2-f9a887f5c82f",
+        metas: Metas(
+            title: "2B Suratul Saad Ayat 22-29",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F2C%20Suratul%20Saad%20Ayat%2030_40.mp3?alt=media&token=cb428c05-07b0-4831-b34a-a10241702c02",
+        metas: Metas(
+            title: "2C Suratul Saad Ayat 30-40",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F2D%20Suratul%20Saad%2042_55.mp3?alt=media&token=4b1129b2-9b51-4596-8733-ef9592ef9f21",
+        metas: Metas(
+            title: "2D Suratul Saad Ayat 42-55",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F2E%20Surat%20saad%2055__70.mp3?alt=media&token=8d617a28-5ad7-4f78-ad1f-ac21843b5f38",
+        metas: Metas(
+            title: "2E Suratul Saad Ayat 56-70",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F2F%20Suratul%20Saad%20Ayat%2072_88.mp3?alt=media&token=31a9f592-0db2-4225-a030-70c74cd73435",
+        metas: Metas(
+            title: "2F Suratul Saad Ayat 72-88",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F3A%20Suratul%20zumar.mp3?alt=media&token=ca23cb21-131c-4192-bf0a-753633987768",
+        metas: Metas(
+            title: "3A Suratul Zumar Ayat 1-13",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F3B%20Suratul%20Zumar%20%20ayat%2014_21.mp3?alt=media&token=3a55dec5-6c38-4eda-be57-5dba82337429",
+        metas: Metas(
+            title: "3B Suratul Zumar Ayat 14-21",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F3C%20Suratul%20zumar%20ayat%2022-26.mp3?alt=media&token=31f599f4-af22-4b2d-b4b5-2a87331a57d6",
+        metas: Metas(
+            title: "3C Suratul Zumar Ayat 22-26",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F3D%20Suratul%20Zumar%20ayat%2037-35.mp3?alt=media&token=4ad496ac-a34b-44be-bc25-1f364de8cf83",
+        metas: Metas(
+            title: "3D Suratul Zumar Ayat 37-35",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F3E%20Suratul%20zumar%2035-48.mp3?alt=media&token=0d8de7cf-e375-4672-8f52-b8854106a1f2",
+        metas: Metas(
+            title: "3E Suratul Zumar Ayat 35-48",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F3F%20suratul%20%20%20Zumar%20ayat%2049_61.mp3?alt=media&token=51950d5c-72fd-4851-95a5-5bb63a3404f0",
+        metas: Metas(
+            title: "3F Suratul Zumar Ayat 49-61",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F3G%20Suratul%20zumar%20ayat%2062_70.mp3?alt=media&token=9e40130a-9170-4404-b36c-3a0804dcbbaa",
+        metas: Metas(
+            title: "3G Suratul Zumar Ayat 62-70",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F4A%20Suratul%20ghafir%207_11.mp3?alt=media&token=4d9337b7-0210-4376-95cc-2153fbeb3cff",
+        metas: Metas(
+            title: "4A Suratul Ghafir Ayat 7-11",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F4B%20Suratul%20Ghafir%20Ayat%2012_16.mp3?alt=media&token=27e6761c-f01f-43e5-a6b0-5b477b855d95",
+        metas: Metas(
+            title: "4B Suratul Ghafir Ayat 12-16",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F4C%20Surah%20ghafir12_16.mp3?alt=media&token=2572e38d-8782-4f41-aa70-d22234147d45",
+        metas: Metas(
+            title: "4C Suratul ghafir 12_16.mp3",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F4D%20Suratul%20%20%20Ghafir%20Ayat%2016_22.mp3?alt=media&token=5dab465b-4015-472e-b580-6c9d918b8758",
+        metas: Metas(
+            title: "4D Suratul Ghafir Ayat 16-22",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F4E%20Surah%20Ghafir%2023_30.mp3?alt=media&token=b1a6695d-0dc6-4393-af5c-2ce0cbee4a52",
+        metas: Metas(
+            title: "4E Suratul Ghafir Ayat 23-30",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F4F%20Suratul%20ghafir31-38.mp3?alt=media&token=7b97f1d3-184a-4a8b-9f64-f73087e82e4f",
+        metas: Metas(
+            title: "4F Suratul Ghafir Ayat 31-38",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F4G%20Surah%20Ghafir%2038-45.mp3?alt=media&token=aaa8502a-e439-4956-8fcb-a76a2407ad7f",
+        metas: Metas(
+            title: "4G Suratul Ghafir Ayat 38-45",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F4H%20Suratul%20Ghafir%20ayat%2047%20-52.mp3?alt=media&token=ee5006b1-58a4-43f5-91f4-d4a2ac9c609a",
+        metas: Metas(
+            title: "4H Suratul Ghafir Ayat 47-52",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F4I%20Suratul%20Ghafir%2061-66.mp3?alt=media&token=47575842-a116-47c5-b9ff-52dc9f6be834",
+        metas: Metas(
+            title: "4I Suratul Ghafir Ayat 61-66",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F4J%20Suratul%20Ghafir%20Ayat%2067%20_76.mp3?alt=media&token=4680160c-3878-4e92-882e-69f9dcae1ae8",
+        metas: Metas(
+            title: "4J Suratul Ghafir Ayat 67-76",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F4K%20Suratul%20Ghafir%20Ayat%2076-85.mp3?alt=media&token=c809599b-35cb-4755-9467-b8c12b4e3be4",
+        metas: Metas(
+            title: "4K Suratul Ghafir Ayat 76-85",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F5A%20Surah%20%20sajda%20ayat%201_8.mp3?alt=media&token=1963506b-7ccc-4e77-80aa-4e9aefce4358",
+        metas: Metas(
+            title: "5A Suratul Sajda Ayat 1-8.",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F5B%20Sajda9-16.mp3?alt=media&token=52ae8244-0cfa-42f6-af08-c1e9157dfce6",
+        metas: Metas(
+            title: "5B Suratul Sajda 9-16",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F5C%20Surah%20%20sajda%20ayat%2017_24.mp3?alt=media&token=7009378d-6648-469c-999d-fd249fbff810",
+        metas: Metas(
+            title: "5C Suratul Sajda Ayat 17-24",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F5D%20Surah%20Sajda%20ayat%2025_29.mp3?alt=media&token=85cc3f5c-01e3-4f21-b1d4-f6328d12b2ac",
+        metas: Metas(
+            title: "5D Suratul Sajda Ayat 25-29",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F5E%20Surah%20sajda%20fussilat%2030-35.mp3?alt=media&token=3e15e4b7-1f30-42c6-a1cc-e20a706b55a3",
+        metas: Metas(
+            title: "5E Suratul Sajda Ayat 30-35",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F5F%20Surah%20sajda%20ayat%2044%5E48.mp3?alt=media&token=9868be78-d497-4df2-9a04-442e338eda53",
+        metas: Metas(
+            title: "5F Suratul Sajda Ayat 44-48",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F5G%20Surah%20sajda%20ayat%2047.mp3?alt=media&token=567d2514-6a6f-4263-8b36-dc1cab28f64f",
+        metas: Metas(
+            title: "5G Suratul Sajda Ayat 47",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F6A%20Surah%20%20shura%201-7.mp3?alt=media&token=eb1e465c-d3f4-4157-8bb3-603f5d228d3b",
+        metas: Metas(
+            title: "6A Suratul Shura Aayat 1-7",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F6B%20Surah%20shura%208-12.mp3?alt=media&token=29bb71c1-f722-448d-ad70-56233272711a",
+        metas: Metas(
+            title: "6B Suratul Shura Ayat 8-12",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F6C%20Suratul%20shura%20%20ayatc%2019%20-23.mp3?alt=media&token=a02c6d58-168a-488b-983c-3b8238566828",
+        metas: Metas(
+            title: "6C Suratul Shura Ayat 19-23",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F6D%20Suratul%20shura%2023_28.mp3?alt=media&token=14b1b57d-902a-4c51-8e63-5b3bb4ce834e",
+        metas: Metas(
+            title: "6D Suratul Shura Ayat 23_28",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F6E%20Suratul%20shura%20Ayat%2028-34.mp3?alt=media&token=a0c710ae-9f1b-4dbd-9710-ff8035f93f5a",
+        metas: Metas(
+            title: "6E Suratul Shura Ayat 28-34",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F6F%20Suratush%20shura%2032_38.mp3?alt=media&token=7b4ceab9-c89f-422c-86eb-bd3b6f65c953",
+        metas: Metas(
+            title: "6F Suratul Shura Ayat 32-38",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F6G%20Surat%20as%20shura%2039-45.mp3?alt=media&token=b024437e-de68-4c52-b4af-e71a580fb4bd",
+        metas: Metas(
+            title: "6G Suratul Shura Ayat 39-45",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F6H%20Surat%20shura%2046-50.mp3?alt=media&token=cb122575-7921-4c59-80b6-33e3889ce7d8",
+        metas: Metas(
+            title: "6H Suratul Shura Ayat 46-50",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F6I%20Surah%20shura%2051_53.mp3?alt=media&token=29c9ddae-1b10-468d-8a40-729c83c3e87d",
+        metas: Metas(
+            title: "6I Suratul Shura Ayat 51-53",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F7A%20Surah%20az%20Zukhruf%20%201-8.mp3?alt=media&token=1a463620-ca73-47e6-862b-7425559dc938",
+        metas: Metas(
+            title: "7A Suratul Zukhruf Ayat 1-8",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F7B%20Surah%20Zukhruf%20%209-14.mp3?alt=media&token=15372822-5282-4645-9a6b-eece122a33e0",
+        metas: Metas(
+            title: "7B Suratul Zukhruf Ayat 9-14",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F7C%20Surah%20Zukhruf%20%2015_20.mp3?alt=media&token=66acec51-3899-48a7-977c-04771c77330f",
+        metas: Metas(
+            title: "7C Suratul Zukhruf Ayat 15-20",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F7D%20Surah%20zukruf%2021-28.mp3?alt=media&token=9bc14738-08fd-43f6-8107-f13178cedd7c",
+        metas: Metas(
+            title: "7D Suratul Zukhruf Ayat 21-28",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F7E%20Surah%20Zukhruf%20%20ayat%2028.mp3?alt=media&token=b324b2b8-6ee7-461f-b0cf-756799df20b0",
+        metas: Metas(
+            title: "7E Suratul Zukhruf Ayat 28-45",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F7F%20Surah%20zhukruf%20%20ayat%2046.mp3?alt=media&token=f8302cd1-9cbe-4020-bdee-3cb70c8ed252",
+        metas: Metas(
+            title: "7F Suratul Zhukruf  Ayat 46-56",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F7G%20Surah%20Zukhruf%20ayat%2057.mp3?alt=media&token=701827f4-e993-486f-ba72-f905020df83a",
+        metas: Metas(
+            title: "7G Suratul Zukhruf Ayat 57",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F8A%20Surah%20dukhan%201_10.mp3?alt=media&token=7a20b7e8-88da-4d76-8dec-ba0d11b8f64f",
+        metas: Metas(
+            title: "8A Suratul Dukhan Ayat 1_10",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F8B%20Surah%20Dukhan%20%2011-20.mp3?alt=media&token=39fee814-d6c2-4d65-bd9b-e14903c6f8dd",
+        metas: Metas(
+            title: "8B Suratul Dukhan Ayat 11-20",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F8C%20Surah%20Dukhan%20%20%20%20Ayat%2021.mp3?alt=media&token=d2e0fdf6-b900-4bb7-a1a8-103a480d6453",
+        metas: Metas(
+            title: "8C Suratul Dukhan Ayat 21",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F8E%20Surah%20Dukhan%20Ayat%20%2040.mp3?alt=media&token=4f9b15f7-ede3-4582-925b-cbfea2edf271",
+        metas: Metas(
+            title: "8E Suratul Dukhan Ayat 40-50",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F8F%20Surah%20dukhan%20%20ayat%2051-59.mp3?alt=media&token=a1f24ede-8eed-401e-bca3-d5b7b3b2ea1f",
+        metas: Metas(
+            title: "8F Suratul Dukhan Ayat 51-59",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F9A%20Surah%20Jathiya%201_5.mp3?alt=media&token=2d59b437-86ec-423c-b948-4b88fb66b41d",
+        metas: Metas(
+            title: "9A Suratul Jathiya Ayat 1-5",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F9B%20Suratul%20Jathiya%20%20ayat%206.mp3?alt=media&token=0afd20fa-d45e-450f-b2f5-f8434209f36a",
+        metas: Metas(
+            title: "9B Suratul Jathiya Ayat 6-11",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F9C%20Surah%20Jathiya%20%20%20Ayat%2012.mp3?alt=media&token=3b009b87-9fbc-4e6a-9618-75dd8865b023",
+        metas: Metas(
+            title: "9C Suratul Jathiya Ayat 12-14",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F9D%20Surah%20jathiya%20ayat%2015%20-19.mp3?alt=media&token=d4185a7e-7c70-4b5f-8d69-aef41d2236cf",
+        metas: Metas(
+            title: "9D Suratul Jathiya Ayat 15-19",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F9E%20Surah%20Jathiya%20%2020-24.mp3?alt=media&token=62a9de3c-ac12-40a6-a8a2-5bd1cc892c46",
+        metas: Metas(
+            title: "9E Suratul Jathiya Ayat 20-24",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F9F%20Surah%20Jathiya%20%2024-29.mp3?alt=media&token=e32cf2b5-6a58-4bcf-bbcf-24fe87d72e00",
+        metas: Metas(
+            title: "9F Suratul Jathiya Ayat 24-29",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F9G%20Surah%20jathiya%20Ayat%2030%20-39.mp3?alt=media&token=98591b46-4d71-44d6-90c1-01322da7ec01",
+        metas: Metas(
+            title: "9G Suratul Jathiya Ayat 30-39",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F10A%20Surah%20Ahqaf%201-5.mp3?alt=media&token=54e0badd-ff1e-403d-9d22-3a4bf3ba94da",
+        metas: Metas(
+            title: "10A Suratul Ahqaf Ayat 1-5",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F10B%20Surah%20Ahqaf%20ayat%206-9.mp3?alt=media&token=3e035476-4c2a-4e5e-9c8b-9991c0b1c783",
+        metas: Metas(
+            title: "10B Suratul Ahqaf Ayat 6-9",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F10C%20Surah%20Ahqaf%20%2010-14.mp3?alt=media&token=668aa57a-432f-4d90-acab-b8b4201ba563",
+        metas: Metas(
+            title: "10C Suratul Ahqaf Ayat 10-14",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F10D%20Surah%20Al%20Ahfaq%20Ayat%2015-16-1.mp3?alt=media&token=0979b634-6a26-477d-be25-88ed1d9c1c89",
+        metas: Metas(
+            title: "10D Suratul Ahfaq Ayat 15-16",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F10E%20surah%20Ahfaq%2017-20.mp3?alt=media&token=107ef11f-eaac-4d76-9d2c-2ce665f7f551",
+        metas: Metas(
+            title: "10E Suratul Ahfaq Ayat 17-20",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F10F%20Surah%20Ahqaf%20%20%2021%20-26.mp3?alt=media&token=d3691940-cb2c-4b81-8d9a-54f24a0422ff",
+        metas: Metas(
+            title: "10F Suratul Ahqaf Ayat 21-26",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F10G%20%20Surah%20Ahqaf%20%20Ayat%2027-30.mp3?alt=media&token=8974183a-b6b9-4364-b087-773118659709",
+        metas: Metas(
+            title: "10G  Suratul Ahqaf Ayat 27-30",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F10H%20Surah%20Ahqaf%20%20Ayat%2031-37.mp3?alt=media&token=15dc29bc-158a-4961-864f-8c3d418ff13d",
+        metas: Metas(
+            title: "10H Suratul Ahqaf Ayat 31-37",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F11B%20Surah%20Muhammed%20%205_9.mp3?alt=media&token=83bef58e-e060-4708-859d-810737742bea",
+        metas: Metas(
+            title: "11B Surah Muhammed Ayat 5-9",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F11C%20Surah%20Muhammed%20%2010-13.mp3?alt=media&token=d5fb7fef-0231-4d90-a89e-55452c241e30",
+        metas: Metas(
+            title: "11C Surah Muhammed Ayat 10-13",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F11D%20Surah%20Muhammed%20%20Ayat%2014-17.mp3?alt=media&token=c2b68a11-2a2b-42c8-aad3-a5e99fae15eb",
+        metas: Metas(
+            title: "11D Surah Muhammed Ayat 14-17",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F11E%20Surah%20Muhammed%20%20Ayat18-19.mp3?alt=media&token=c58cc17a-51cf-4b1c-a609-8b57cdd98b8d",
+        metas: Metas(
+            title: "11E Surah Muhammed Ayat 18-19",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F11F%20Surah%20Muhammed%20%2020-21.mp3?alt=media&token=7772f334-4d6f-4fe4-bd52-3e1f028cf03a",
+        metas: Metas(
+            title: "11F Surah Muhammed Ayat 20-21",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F11G%20%20Surah%20Muhammed%2022_23.mp3?alt=media&token=13440ed9-1ead-4210-9984-08e0791e3529",
+        metas: Metas(
+            title: "11G Surah Muhammed Ayat 22-23",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F11H%20Surah%20Muhammed%20%20Ayat%2024-28.mp3?alt=media&token=a329122b-5d48-4dea-8a8b-ea3a2e1831c8",
+        metas: Metas(
+            title: "11H Surah Muhammed Ayat 24-28",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F11I%20Surah%20Muhammed%20ayat%2029-35-.mp3?alt=media&token=27dbfb19-e944-4349-8712-ae54da22d978",
+        metas: Metas(
+            title: "11I Surah Muhammed Ayat 29-35",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F11J%20Surah%20Muhammed%20Ayat%2036_38.mp3?alt=media&token=8b7cf164-b106-4b75-9fd0-84915e50d7f4",
+        metas: Metas(
+            title: "11J Surah Muhammed Ayat 36-38",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F12A%20Surah%20Fatah-1.mp3?alt=media&token=9aeac0fd-a79b-4045-82ad-7771123bcd21",
+        metas: Metas(
+            title: "12A Surah Fatah Ayat 1-5",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F12B%20Surah%20Fatah%20Ayat%206_9.mp3?alt=media&token=adbad718-9e58-435a-84c6-90d55cdc0849",
+        metas: Metas(
+            title: "12B Surah Fatah Ayat 6-9",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F12C%20Surah%20Fatah%20Ayat%2010-14.mp3?alt=media&token=870ad12b-6d3b-4fa5-818b-94addabacbf6",
+        metas: Metas(
+            title: "12C Surah Fatah Ayat 10-14",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F12E%20Surah%20Fatah%2018-21.mp3?alt=media&token=79589f16-d536-4abf-8baa-e2bae2486646",
+        metas: Metas(
+            title: "12D Surah Fatah Ayat 14-17",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F12E%20Surah%20Fatah%2018-21.mp3?alt=media&token=79589f16-d536-4abf-8baa-e2bae2486646",
+        metas: Metas(
+            title: "12E Surah Fatah Ayat 18-21",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F12F%20Suratul%20Fath%20Ayat%2022-26.mp3?alt=media&token=e3f1d539-9757-4434-aad8-945e62309ab4",
+        metas: Metas(
+            title: "12F Suratul Fatah Ayat 22-26",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F12H%20Surah%20Fath%20Ayat%2027-28.mp3?alt=media&token=6398e21a-8cc3-42f5-a3c1-6fd6c357d04c",
+        metas: Metas(
+            title: "12G Surah Fatah Ayat 27-28",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F13E%20Surah%20Hujurat%20%20Ayat%2012.m4a?alt=media&token=33c76c7a-452b-4eb1-86aa-ea8fd57e3c31",
+        metas: Metas(
+            title: "13E Surah Hujurat  Ayat 12.m4a",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fraw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F13D%20Suah%20Hujurat%2011.m4a?alt=media&token=99e53d64-601d-48ae-965a-e8df82127944",
+        metas: Metas(
+            title: "13D Surah Hujurat 11.m4a",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fprimary%3Anew%20surahs%2F14J%20Sirah%20Qaaf%2041_45.mp3?alt=media&token=e34d0b2e-58b5-47cc-ac3e-dd845256f4d4",
+        metas: Metas(
+            title: "14J Surah Qaaf 41-45",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fprimary%3Anew%20surahs%2F14I%20%20Surah%20Qaf%2036-40.mp3?alt=media&token=129e0512-ad4f-45ae-b311-4fc63e29bb45",
+        metas: Metas(
+            title: "14I  Surah Qaaf 36-40",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fprimary%3Anew%20surahs%2F14H%20Surah%20al%20Qaaf%2031-35.mp3?alt=media&token=eb81f6a5-5f38-4253-95ed-889433e3dd8d",
+        metas: Metas(
+            title: "14H Surah al Qaaf 31-35",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fprimary%3Anew%20surahs%2F14F%20Surah%20Al%20Qaf%20Ayat%2024-26.mp3?alt=media&token=1cf3d1ac-20e8-49e9-aa0f-e9bf13f38c2b",
+        metas: Metas(
+            title: "14F Surah Al Qaaf Ayat 24-26",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fprimary%3Anew%20surahs%2F14D%20Surah%20Qaf%2019-.mp3?alt=media&token=edd42de9-d8a8-48dc-a1e0-70ff11b560ab",
+        metas: Metas(
+            title: "14D Surah Qaaf 19-.mp3",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fprimary%3Anew%20surahs%2F14C%20Surah%20qaf%2012-18.mp3?alt=media&token=2cf47a10-22eb-4309-a6c5-06fcfb7fb9cc",
+        metas: Metas(
+            title: "14C Surah Qaaf 12-18.mp3",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+    Audio.network(
+        "https://firebasestorage.googleapis.com/v0/b/al-huda-cba0a.appspot.com/o/Songs%2Fprimary%3Anew%20surahs%2F14A%20Surah%20Al%20Qaaf%20Ayat%201-5.mp3?alt=media&token=6d0340c2-91e9-40ea-b938-a4f691defe2e",
+        metas: Metas(
+            title: "14A Surah Al Qaaf Ayat 1-5.mp3",
+            artist: 'Quran',
+            image: MetasImage.asset('assets/dawah.png'))),
+
+  ];
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    setupPlaylist();
+  }
+
+  void setupPlaylist() async {
+    audioPlayer.open(Playlist(audios: audioList),
+        autoStart: false, loopMode: LoopMode.playlist);
+  }
+
+  Widget playlistImage() {
+    return Container(
+      height: screenHeight * 0.25,
+      width: screenHeight * 0.25,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20.0),
+        child: Image.asset(
+          'assets/dawah.png',
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  Widget playlistTitle() {
+    return Text(
+      'Tafseer - E - Quran',
+      style: TextStyle(
+          fontFamily: 'Barlow',
+          color: Colors.white,
+          fontSize: 30,
+          fontWeight: FontWeight.bold),
+    );
+  }
+
+  Widget playButton() {
+    return Container(
+      width: screenWidth * 0.25,
+      child: TextButton(
+          onPressed: () => audioPlayer.playlistPlayAtIndex(0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.play_circle_outline_rounded,
+                color: mainColor,
+              ),
+              SizedBox(width: 5),
+              Text(
+                'Play',
+                style: TextStyle(color: mainColor),
+              ),
+            ],
+          ),
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateColor.resolveWith((states) => Colors.white),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              )))),
+    );
+  }
+
+  Widget playlist(RealtimePlayingInfos realtimePlayingInfos) {
+    return Container(
+      height: screenHeight * 0.35,
+      alignment: Alignment.bottomLeft,
+      child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: audioList.length,
+          itemBuilder: (context, index) {
+            return playlistItem(index);
+          }),
+    );
+  }
+
+  Widget playlistItem(int index) {
+    return InkWell(
+      onTap: () => audioPlayer.playlistPlayAtIndex(index),
+      splashColor: Colors.transparent,
+      highlightColor: mainColor,
+      child: Container(
+        height: screenHeight * 0.07,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Row(
+            children: [
+              Text(
+                '0${index + 1}',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Barlow'),
+              ),
+              SizedBox(width: screenWidth * 0.04),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      audioList[index].metas.title,
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Barlow'),
+                    ),
+                    SizedBox(height: screenHeight * 0.005),
+                    Text(
+                      audioList[index].metas.artist,
+                      style: TextStyle(
+                          fontSize: 13,
+                          color: Color(0xff5d6169),
+                          fontFamily: 'Barlow'),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.menu_rounded,
+                color: inactiveColor,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget bottomPlayContainer(RealtimePlayingInfos realtimePlayingInfos) {
+    return Container(
+      height: screenHeight * 0.1,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0))),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Row(
+          children: [
+            Container(
+              height: screenHeight * 0.08,
+              width: screenHeight * 0.08,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  realtimePlayingInfos.current.audio.audio.metas.image.path,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SizedBox(width: screenWidth * 0.03),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  slider(),
+                  SizedBox(height: screenHeight * 0.005),
+                  Text(
+                    realtimePlayingInfos.current.audio.audio.metas.artist,
+                    style: TextStyle(
+                        fontSize: 13, color: mainColor, fontFamily: 'Barlow'),
+                  )
+                ],
+              ),
+            ),
+            Icon(
+              Icons.favorite_outline_rounded,
+              color: mainColor,
+            ),
+            SizedBox(
+              width: screenWidth * 0.03,
+            ),
+            IconButton(
+                icon: Icon(realtimePlayingInfos.isPlaying
+                    ? Icons.pause_circle_filled_rounded
+                    : Icons.play_circle_fill_rounded),
+                iconSize: screenHeight * 0.07,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                color: mainColor,
+                onPressed: () => audioPlayer.playOrPause())
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget slider() {
+    return Slider.adaptive(
+        min: 0.0,
+        value: position.inSeconds.toDouble(),
+        max: duration.inSeconds.toDouble(),
+        onChanged: (double value) {
+          setState(() {
+            audioPlayer.seek(new Duration(seconds: value.toInt()));
+          });
+        });
+  }
+  /// List of placeholder icon buttons used for the bottom navigation bar
+  Widget bottomNavigationBar() {
+    return BottomNavigationBar(
+      currentIndex: _currentIndex,
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: mainColor,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: inactiveColor,
+      iconSize: screenWidth * 0.07,
+      items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search',),
+      ],
+      onTap: (index){
+        setState(() {
+          _currentIndex = index;
+        });
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+        backgroundColor: mainColor,
+        bottomNavigationBar: Container(
+          height: screenHeight * 0.1,
+          color: Colors.white,
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
+            ),
+            child: bottomNavigationBar(),
+          ),
+        ),
+        body: audioPlayer.builderRealtimePlayingInfos(
+            builder: (context, realtimePlayingInfos) {
+          if (realtimePlayingInfos != null) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                playlistImage(),
+                SizedBox(height: screenHeight * 0.02),
+                playlistTitle(),
+                SizedBox(height: screenHeight * 0.02),
+                playButton(),
+                SizedBox(height: screenHeight * 0.02),
+                playlist(realtimePlayingInfos),
+                bottomPlayContainer(realtimePlayingInfos)
+              ],
+            );
+          } else {
+            return Column();
+          }
+        }));
+  }
+}
